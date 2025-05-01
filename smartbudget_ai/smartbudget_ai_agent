@@ -1,0 +1,100 @@
+# agent/langchain_agent.py
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.agents import initialize_agent, AgentType
+from agent.tools import analyze_expenses
+import os
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    temperature=1.0,
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
+
+tools = [analyze_expenses]
+
+agent_executor = initialize_agent(
+    tools,
+    llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+
+def run_agent(query: str, user_id: int) -> str:
+    print(f"Utilisateur ID au niveau de langchain: {user_id}")
+    return agent_executor.run({"input": query, "user_id": user_id})
+# agent/tools.py
+from langchain.tools import tool
+from agent.utils import get_db_connection
+from datetime import datetime
+
+@tool
+def analyze_expenses(input_str: str) -> str:
+    """Analyse les dépenses de l'utilisateur entre deux dates. 
+    L'input doit être au format: 'user_id|start_date|end_date'
+    Exemple: '1|2023-01-01|2023-12-31'"""
+    try:
+        # Parse the input string
+        parts = input_str.split('|')
+        if len(parts) != 3:
+            return "Format d'entrée invalide. Utilisez: 'user_id|start_date|end_date'"
+        
+        user_id = int(parts[0])
+        start_date = parts[1]
+        end_date = parts[2]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = """
+            SELECT categorie, SUM(montant)
+            FROM transactions
+            WHERE user_id = %s AND type = 'Dépense' AND date BETWEEN %s AND %s
+            GROUP BY categorie
+        """
+        cursor.execute(query, (user_id, start_date, end_date))
+        results = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        if not results:
+            return "Aucune dépense trouvée pour cette période."
+        
+        response = f"""Dépenses de l'utilisateur #{user_id} entre {start_date} et {end_date} :\n"""
+        for categorie, total in results:
+            response += f"- {categorie} : {total:.2f} MAD\n"
+        return response
+    except Exception as e:
+        return f"Erreur lors de l'analyse des dépenses : {str(e)}"# agent/utils.py
+import os
+import mysql.connector
+from dotenv import load_dotenv
+import requests
+
+load_dotenv()
+
+def get_db_connection():
+    conn = mysql.connector.connect(
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
+        port=int(os.getenv("DB_PORT"))
+    )
+    return conn
+
+def send_email(to_email: str, subject: str, text: str):
+    api_key = os.getenv("MAIL_API_KEY")
+    domain = os.getenv("MAIL_DOMAIN")
+    sender = os.getenv("MAIL_SENDER")
+    
+    response = requests.post(
+        f"https://api.mailgun.net/v3/{domain}/messages",
+        auth=("api", api_key),
+        data={
+            "from": f"SmartBudget AI <{sender}>",
+            "to": [to_email],
+            "subject": subject,
+            "text": text
+        }
+    )
+    return response.status_code == 200
+
