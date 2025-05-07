@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+langchain
+langchain-google-genai
+python-dotenv
+mysql-connector-python
+httpx
