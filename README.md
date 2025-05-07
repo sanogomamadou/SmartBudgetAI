@@ -50,7 +50,6 @@ Le tout est propulsé par une IA qui apprend **vos habitudes de consommation**, 
 
 ```bash
 git clone https://github.com/sanogomamadou/smartbudget_ai.git
-cd smartbudget-ai
 ````
 
 ### 2. Lancer le frontend
