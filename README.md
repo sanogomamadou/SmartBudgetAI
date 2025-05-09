@@ -1,6 +1,6 @@
 # 💸 SmartBudget AI – Votre assistant personnel de gestion budgétaire intelligent
 
-Bienvenue sur **SmartBudget AI**, un projet qui combine intelligence artificielle, data science et UX moderne pour vous aider à **gérer vos finances comme un pro**. Optmisé pour les étudiants, SmartBudget AI apprend de votre comportement pour **vous guider, vous alerter et vous conseiller intelligemment**.
+Bienvenue sur **SmartBudget AI**, un projet qui combine intelligence artificielle UX moderne pour vous aider à **gérer vos finances comme un pro**. Optmisé pour les étudiants, SmartBudget AI apprend de votre comportement pour **vous guider, vous alerter et vous conseiller intelligemment**.
 
 > 🚀 *Un budget maîtrisé, c’est un futur assuré.*
 
