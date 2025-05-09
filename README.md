@@ -11,7 +11,6 @@ Bienvenue sur **SmartBudget AI**, un projet qui combine intelligence artificiell
 SmartBudget AI est une application web alimentée par un agent IA personnalisé. L’objectif est d’aider l’utilisateur à :
 - Suivre ses revenus et ses dépenses.
 - Recevoir des **conseils financiers personnalisés**.
-- Obtenir des **alertes intelligentes** en cas de dérive budgétaire.
 - Planifier des objectifs d’épargne et suivre leur avancement.
 - Profiter d’**une interface simple, clean et agréable**.
 
@@ -36,11 +35,11 @@ Le tout est propulsé par une IA qui apprend **vos habitudes de consommation**, 
 ✅ Dashboard interactif avec vue globale sur les finances  
 ✅ Classification automatique des dépenses (Nourriture, Transport, etc.)  
 ✅ Prédiction des dépenses futures selon le comportement  
-✅ Recommandations personnalisées basées sur les objectifs  
-✅ Alertes intelligentes en cas de dépassement de seuil  
-✅ Chatbot intégré pour parler à l’IA  
-✅ Système d’objectifs (ex : "épargner 5000 Dhs en 3 mois")  
-✅ Export PDF ou Excel des rapports   
+✅ Conseils fianciers personnalisés basées sur les habitudes 
+✅ Analyse dituation financière mensuelle  
+✅ Système d’objectifs avec prévision de budget
+✅ Simulateur d'épargne
+✅ Analyse des dépenses sur une période donnée  
 
 ---
 
