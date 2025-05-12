@@ -5,3 +5,4 @@ langchain-google-genai
 python-dotenv
 mysql-connector-python
 httpx
+apscheduler
