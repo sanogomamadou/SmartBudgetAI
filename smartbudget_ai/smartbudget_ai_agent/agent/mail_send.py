@@ -10,6 +10,6 @@ def envoyer_email_gmail(destinataire, sujet, contenu):
 
     # Connexion SMTP sécurisée
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login("mamadousanogo352@gmail.com", "oppe nkay injd lvyu")  # ⚠️ pas ton mot de passe normal !
+        smtp.login("mamadousanogo352@gmail.com", "XXXXXXXXXX")  # remplace par ta propre clé GMAIL !
         smtp.send_message(email)
 
