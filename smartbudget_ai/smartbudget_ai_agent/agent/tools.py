@@ -9,7 +9,7 @@ import calendar
 def analyze_expenses(input_str: str) -> str:
     """Analyse les dépenses de l'utilisateur entre deux dates. 
     L'input doit être au format: 'user_id|start_date|end_date'
-    Exemple: '1|2023-01-01|2023-12-31'"""
+    Exemple: '1|2025-05-01|2025-05-30'"""
     try:
         # Parse the input string
         parts = input_str.split('|')
@@ -325,3 +325,77 @@ def analyseFinanciereMensuelle(input_str: str) -> str:
 
     except Exception as e:
         return f"Erreur dans analyseFinanciereMensuelle : {str(e)}"
+@tool 
+def verifierDepassementBudget(input_str: str) -> str:
+    """
+    Vérifie pour chaque utilisateur si une catégorie dépasse son budget défini pour le mois en cours
+    (dans la table `budgets`) et envoie un mail d’alerte.
+    """
+    try:
+        from agent.mail_send import envoyer_email_gmail
+        from datetime import datetime, timedelta
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        today = datetime.today()
+        start_of_month = today.replace(day=1)
+        if today.month == 12:
+            start_next_month = today.replace(year=today.year + 1, month=1, day=1)
+        else:
+            start_next_month = today.replace(month=today.month + 1, day=1)
+        
+
+        # Récupérer le mois courant au format 'YYYY-MM'
+        current_month = today.strftime('%Y-%m')
+
+        # Récupérer tous les budgets définis ce mois-ci
+        cursor.execute("""
+            SELECT user_id, category, amount
+            FROM budgets
+            WHERE month = %s
+        """, (current_month,))
+        budgets = cursor.fetchall()
+
+        notifications = []
+
+        for user_id, category, budget_amount in budgets:
+
+            # Calculer les dépenses réelles de ce user pour cette catégorie dans la période
+            cursor.execute("""
+                SELECT SUM(montant)
+                FROM transactions
+                WHERE user_id = %s
+                AND type = 'Dépense'
+                AND categorie = %s
+                AND date >= %s AND date < %s
+            """, (user_id, category, start_of_month, start_next_month))
+            result = cursor.fetchone()
+            total_depense = result[0] if result[0] is not None else 0
+
+
+            if total_depense > budget_amount:
+                # Récupérer l'email de l'utilisateur
+                cursor.execute("SELECT email FROM users WHERE id = %s", (user_id,))
+                email_result = cursor.fetchone()
+                if email_result:
+                    email = email_result[0]
+                    subject = f"🚨 Alerte dépassement de budget : {category}"
+                    message = (
+                        f"Salut 👋,\n\n"
+                        f"Tu as dépassé ton budget pour la catégorie {category} ce mois-ci !\n"
+                        f"💰 Dépenses actuelles : {total_depense:.2f} MAD\n"
+                        f"📉 Budget prévu : {budget_amount:.2f} MAD\n\n"
+                        f"Essaie de lever le pied 😅. On est là pour t’aider à gérer tout ça !\n"
+                        f"\n*Smart Budget AI 🧠💸*"
+                    )
+                    envoyer_email_gmail(email, subject, message)
+                    notifications.append(f"Alerte envoyée à {email} (catégorie: {category})")
+                
+
+        cursor.close()
+        conn.close()
+
+        return "Vérification terminée.\n" + "\n".join(notifications) if notifications else "Aucune alerte à envoyer."
+
+    except Exception as e:
+        return f"Erreur : {str(e)}"
