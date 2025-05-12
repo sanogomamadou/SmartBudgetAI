@@ -23,7 +23,7 @@ class AgentRequest(BaseModel):
     user_id: int
     query: str
 
-@app.post("/ask-agent")a
+@app.post("/ask-agent")
 async def ask_agent(data: AgentRequest):
     response = run_agent(data.query, data.user_id)
     print(f"Utilisateur ID au niveau de main : {data.user_id}")
