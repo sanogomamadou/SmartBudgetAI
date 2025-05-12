@@ -35,11 +35,13 @@ Le tout est propulsé par une IA qui apprend **vos habitudes de consommation**, 
 ✅ Dashboard interactif avec vue globale sur les finances  
 ✅ Classification automatique des dépenses (Nourriture, Transport, etc.)  
 ✅ Prédiction des dépenses futures selon le comportement  
-✅ Conseils fianciers personnalisés basées sur les habitudes 
-✅ Analyse dituation financière mensuelle  
+✅ Conseils personnalisés pour la gestion de budgets basés sur les habitudes 
+✅ Analyse situation financière mensuelle  
 ✅ Système d’objectifs avec prévision de budget
 ✅ Simulateur d'épargne
 ✅ Analyse des dépenses sur une période donnée  
+✅ Alerte mail de dépassement du budget prévu pour une catégorie 
+
 
 ---
 
@@ -57,8 +59,8 @@ Dans smartbudget_ai_agent/.env remplacez les XXXXXX par vos propres clés API
 ```
 API Key Gemini
 GOOGLE_API_KEY=XXXXXXXX
-Mail API Mailgun
-MAIL_API_KEY=XXXXXXXXXX
+GMAIL SMTP
+SMTP_KEY=XXXXXXXXXX
 ```
 
 ### 3. Lancer le backend
