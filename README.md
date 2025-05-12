@@ -33,14 +33,21 @@ Le tout est propulsé par une IA qui apprend **vos habitudes de consommation**, 
 ## 🧩 Fonctionnalités clés
 
 ✅ Dashboard interactif avec vue globale sur les finances  
+
 ✅ Classification automatique des dépenses (Nourriture, Transport, etc.)  
+
 ✅ Prédiction des dépenses futures selon le comportement  
+
 ✅ Conseils personnalisés pour la gestion de budgets basés sur les habitudes
 
 ✅ Analyse situation financière mensuelle  
+
 ✅ Système d’objectifs avec prévision de budget
+
 ✅ Simulateur d'épargne
+
 ✅ Analyse des dépenses sur une période donnée  
+
 ✅ Alerte mail de dépassement du budget prévu pour une catégorie 
 
 
