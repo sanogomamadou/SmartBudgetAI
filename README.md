@@ -78,7 +78,7 @@ Placez le document "smartbudget_ai_agent" dans votre dossier xampp au meme nivea
 ```Dans le Terminal tapez
 cd C:/xampp/smartbudget_ai_agent
 pip install -r requirements.txt
-uvicorn main:app --reload
+python main.py
 ```
 
 ### 4. Lancer le frontend
