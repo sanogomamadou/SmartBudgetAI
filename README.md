@@ -23,7 +23,7 @@ Le tout est propulsé par une IA qui apprend **vos habitudes de consommation**, 
 | Stack | Détails |
 |------|---------|
 | 👨‍💻 Frontend | HTML,CSS,Javascript |
-| 🧠 IA | Python , GEMINI Flash 2.0 |
+| 🧠 IA | Python , GEMINI Flash 2.0, LangChain|
 | 📊 Backend | PHP, FastAPI |
 | 🗄️ Base de données | MySQL |
 
